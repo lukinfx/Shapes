@@ -1,0 +1,54 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:screensaver"
+        xmlns:TvaryLib="clr-namespace:TvaryLib;assembly=TvaryLib" x:Class="screensaver.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="562.107" Width="896">
+    <Grid Margin="0,0,0,-2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25*" MaxHeight="25"/>
+            <RowDefinition Height="271*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="87" MaxWidth="87" MinWidth="87"/>
+            <ColumnDefinition Width="119*"/>
+        </Grid.ColumnDefinitions>
+        <Canvas x:Name="canvas1" Grid.Column="1" Background="Aqua" Grid.Row="1" Margin="0,0,0,9" MouseLeftButtonDown="canvas1_MouseDown" MouseMove="canvas1_MouseMove" MouseRightButtonDown="canvas1_MouseRightButtonDown"/>
+        <ListBox x:Name="listBoxJmena" HorizontalAlignment="Left" Height="487" Margin="10,10,0,0" VerticalAlignment="Top" Width="67" ItemsSource="{Binding Mode=OneWay}" SelectionChanged="listBoxJmena_SelectionChanged" SelectionMode="Multiple" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
+            <ListBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="-0.123"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="-0.498"/>
+                </TransformGroup>
+            </ListBox.RenderTransform>
+            <ListBox.ItemBindingGroup>
+                <BindingGroup/>
+            </ListBox.ItemBindingGroup>
+            <ListBox.DataContext>
+                <TvaryLib:Tvar/>
+            </ListBox.DataContext>
+        </ListBox>
+        <ToolBar Height="25" VerticalAlignment="Top" Header="Pridat">
+            <Button Content="Cara" Click="ButtonCara_Click" />
+            <Button Content="Kruh" Click="ButtonKruh_Click"/>
+            <Button Content="Obdelnik" Click="ButtonObdelnik_Click"/>
+        </ToolBar>
+        <Menu Grid.Column="1" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="801">
+            <MenuItem Header="Smaz">
+                <MenuItem Header="Smaz tento" Click="ButtonSmaz_Click"/>
+                <MenuItem Header="Smaz vse" Click="ButtonSmazVse_Click"/>
+            </MenuItem>
+            <MenuItem Header="Uprav">
+                <MenuItem Header="Velikost a pozici" Click="ButtonSouradnice_Click"/>
+                <MenuItem Header="Barvu" Click="ButtonBarva_Click"/>
+                <MenuItem Header="Jmeno" Click="ButtonJmeno_Click"/>
+            </MenuItem>
+            <MenuItem Header="Uloz" Click="Button_Click"/>
+        </Menu>
+    </Grid>
+</Window>
