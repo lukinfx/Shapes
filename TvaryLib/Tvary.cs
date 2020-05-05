@@ -50,8 +50,8 @@ namespace ShapesLib
         public virtual void ChangeCoordinates(Coordinates newCoordinates)
         {
 
-            leftTop.x = leftTop.x + newCoordinates.x;
-            leftTop.y = leftTop.y + newCoordinates.y;
+            //leftTop.x = leftTop.x + newCoordinates.x;
+            //leftTop.y = leftTop.y + newCoordinates.y;
         }
     }
 
