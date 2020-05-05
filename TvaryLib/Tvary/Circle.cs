@@ -64,9 +64,9 @@ namespace ShapesLib
             inputCircle.ShowDialog();
         }
 
-        public override Coordinates Size()
+        public override Coordinates GetSize()
         {
-            Coordinates size = new Coordinates() { x = width + 20, y = height + 20 };
+            Coordinates size = new Coordinates() { x = width, y = height };
             return size;
         }
 
@@ -74,14 +74,6 @@ namespace ShapesLib
         {
             leftTop.x = leftTop.x + offset.x;
             leftTop.y = leftTop.y + offset.y;
-        }
-
-        public override Coordinates MarginCoordinates()
-        {
-            Coordinates margin = new Coordinates();
-            margin.x = leftTop.x - 10;
-            margin.y = leftTop.y - 10;
-            return margin;
         }
 
         public override Coordinates GetCoordinates()

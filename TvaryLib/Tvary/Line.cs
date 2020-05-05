@@ -70,9 +70,9 @@ namespace ShapesLib
             inputCara.ShowDialog();
         }
 
-        public override Coordinates Size ()
+        public override Coordinates GetSize ()
         {
-            Coordinates size = new Coordinates() { x = Math.Abs(x2 - x1) + 20 , y = Math.Abs(y2 - y1) + 20 };
+            Coordinates size = new Coordinates() { x = Math.Abs(x2 - x1) , y = Math.Abs(y2 - y1) };
             return size;
         }
 
@@ -85,27 +85,9 @@ namespace ShapesLib
             y2 = y2 + offset.y;
         }
 
-        public override Coordinates MarginCoordinates()
-        {
-            Coordinates margin = new Coordinates();
-            if (x1 <= x2)
-            {
-                margin.x = x1 -10;
-            }
-            else margin.x = x2 - 10;
-            
-            if (y1 <= y2)
-            {
-                margin.y = y1-10;
-            }
-            else margin.y = y2 - 10;
-
-            return margin;
-        }
-
         public override Coordinates GetCoordinates()
         {
-            return new Coordinates() { x = x1, y = y1 };
+            return new Coordinates() { x = Math.Min(x1, x2), y = Math.Min(y1,y2) };
         }
 
     }

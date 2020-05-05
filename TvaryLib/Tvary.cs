@@ -36,17 +36,12 @@ namespace ShapesLib
             this.shapeType = shapeType;
         }
 
-        public virtual Coordinates Size()
+        public virtual Coordinates GetSize()
         {
             throw new NotImplementedException();
         }
 
-        public virtual Coordinates MarginCoordinates()
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void Move(Coordinates newCoordinates)
+        public virtual void Move(Coordinates offset)
         {
             throw new NotImplementedException();
         }
@@ -56,6 +51,17 @@ namespace ShapesLib
             throw new NotImplementedException();
         }
 
+        public Rect GetBoundingRect()
+        {
+            var rect = new Rect()
+            {
+                X = GetCoordinates().x,
+                Y = GetCoordinates().y,
+                Width = GetSize().x,
+                Height = GetSize().y
+            };
+            return rect;
+        }
     }
 
     public class Tvary
@@ -97,48 +103,29 @@ namespace ShapesLib
             }
         }
 
-        public virtual void DragChangeCoordinates(Coordinates newCoordinates)
-        {
-            foreach (var item in listOfShapes)
-            {
-                if (item.isSelected)
-                {
-                    item.Move(newCoordinates);
-                }
-            }
-        }
-
-        public virtual Coordinates ReturnCoordinates(string name)
-        {
-            var chosenShape = listOfShapes.Find(t => t.name == name);
-            return chosenShape.GetCoordinates();
-        }
-
-        private void Border(Canvas canvas)
+        private void PaintBorder(Canvas canvas)
         {
             foreach (var shape in listOfShapes)
             {
                 if (shape.isSelected) 
-                { 
-                    Coordinates size = shape.Size();
-                    Coordinates marginCoordinates = shape.MarginCoordinates();
+                {
+                    var boundingRect = shape.GetBoundingRect();
+                    boundingRect.Inflate(10, 10);
+
                     System.Windows.Shapes.Rectangle borderRectangle = new System.Windows.Shapes.Rectangle();
-                    borderRectangle.Width = size.x;
-                    borderRectangle.Height = size.y;
+                    Canvas.SetLeft(borderRectangle, boundingRect.X);
+                    Canvas.SetTop(borderRectangle, boundingRect.Y);
+                    borderRectangle.Width = boundingRect.Width;
+                    borderRectangle.Height = boundingRect.Height;
 
-                    Pen pen = new Pen();
-                    pen.DashStyle = DashStyles.DashDot;
                     var arr = new DoubleCollection() { 6, 3 };
-
                     borderRectangle.StrokeDashArray = arr;
-                    borderRectangle.Stroke = System.Windows.Media.Brushes.Red;
-                    borderRectangle.Margin = new Thickness(marginCoordinates.x, marginCoordinates.y, 0, 0);
+                    borderRectangle.Stroke = Brushes.Red;
+
                     canvas.Children.Add(borderRectangle);
                 }
             }
-            
         }
-
 
         public virtual void PaintCanvas(Canvas canvas)
         {
@@ -148,8 +135,9 @@ namespace ShapesLib
                 t.PaintShape(canvas);
             }
 
-            Border(canvas);
+            PaintBorder(canvas);
         }
+
         public virtual void UpdateTheListBox(ListBox listBoxNames)
         {
             listBoxNames.Items.Clear();
@@ -182,14 +170,14 @@ namespace ShapesLib
         {
             foreach (var tvar in listOfShapes)
             {
-                Coordinates size = tvar.Size();
-                Coordinates margin = tvar.MarginCoordinates();
+                var boundingRect = tvar.GetBoundingRect();
+                boundingRect.Inflate(10, 10);
 
-                System.Diagnostics.Debug.WriteLine($"Tvar : {margin.x} < {mouseMove.x} && {margin.x} + {size.x} > {mouseMove.x} && {margin.y} < {mouseMove.y} && {margin.y} + {size.y} > {mouseMove.y}");
-                if (margin.x + 87 < mouseMove.x && margin.x + 87 + size.x > mouseMove.x && margin.y + 25 < mouseMove.y && margin.y + size.y +25 > mouseMove.y)
+                var mouseRect = new Rect(mouseMove.x, mouseMove.y, 0, 0);
+
+                if (boundingRect.IntersectsWith(mouseRect))
                 {
-                    if (tvar.isSelected) { tvar.isSelected = false; }
-                    else { tvar.isSelected = true; }
+                    tvar.isSelected = !tvar.isSelected;
                 }
             }
         }

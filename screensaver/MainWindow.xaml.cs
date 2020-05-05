@@ -206,7 +206,7 @@ namespace screensaver
                 Point p = e.GetPosition(this);
                 move2.x = p.X - mouseMove.x;
                 move2.y = p.Y - mouseMove.y;
-                tvary.DragChangeCoordinates(move2);
+                tvary.MoveSelected(move2);
                 tvary.PaintCanvas(canvas1);
                 mouseMove.x = p.X;
                 mouseMove.y = p.Y;
@@ -215,7 +215,7 @@ namespace screensaver
 
         private void canvas1_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Point p = e.GetPosition(this);
+            Point p = e.GetPosition(canvas1);
             mouseMove.x = p.X;
             mouseMove.y = p.Y;
             tvary.MouseClickRecogniseShape(mouseMove);
