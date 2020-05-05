@@ -74,7 +74,7 @@ namespace screensaver
                 foreach (string oznac in listBoxJmena.SelectedItems)
                 {
 
-                    ShapesLib.Shape oznacTento = tvary.returnShape(oznac);
+                    ShapesLib.Shape oznacTento = tvary.GetShape(oznac);
                     oznacTento.isSelected = true;
                 }
                 tvary.PaintCanvas(canvas1);
@@ -114,7 +114,7 @@ namespace screensaver
         private void ButtonSouradnice_Click(object sender, RoutedEventArgs e)
         {
 
-            ShapesLib.Shape mujTvar = tvary.returnShape(jmeno);
+            ShapesLib.Shape mujTvar = tvary.GetShape(jmeno);
             mujTvar.Dialog();
             tvary.PaintCanvas(canvas1);
         }

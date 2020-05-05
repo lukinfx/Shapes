@@ -43,7 +43,7 @@ namespace ShapesLib
         public static void ChangeLine(string name, Coordinates coordinatesStart, Coordinates coordinatesEnd)
         {
             Tvary shapes = new Tvary();
-            Line line = (Line)shapes.returnShape(name);
+            Line line = (Line)shapes.GetShape(name);
             line.x1 = coordinatesStart.x;
             line.y1 = coordinatesStart.y;
             line.x2 = coordinatesEnd.x;

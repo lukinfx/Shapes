@@ -159,7 +159,7 @@ namespace ShapesLib
             canvas1.Children.Clear();
         }
 
-        public Shape returnShape(string jmeno)
+        public Shape GetShape(string jmeno)
         {
             Shape mujTvar = listOfShapes.Find(t => t.name == jmeno);
             
