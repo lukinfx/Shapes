@@ -22,6 +22,9 @@ namespace TvaryLib
         Obdelnik
     };
 
+    /// <summary>
+    /// This is a base class for all shapes
+    /// </summary>
     public class Tvar
     {
         public string jmeno;
