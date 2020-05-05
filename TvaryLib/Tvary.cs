@@ -171,12 +171,6 @@ namespace ShapesLib
             canvas1.Children.Clear();
         }
 
-        public ShapeType returnShapeType(string name)
-        {
-            var myShape = listOfShapes.Find(t => t.name == name);
-            return myShape.shapeType;
-        }
-
         public Shape returnShape(string jmeno)
         {
             Shape mujTvar = listOfShapes.Find(t => t.name == jmeno);

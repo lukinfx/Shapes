@@ -44,7 +44,6 @@ namespace screensaver
             tvary.AddShape(cara);
             tvary.PaintCanvas(canvas1);
             tvary.UpdateTheListBox(listBoxJmena);
-            tvary.returnShapeType(cara.name);
         }
 
         private void ButtonSmaz_Click(object sender, RoutedEventArgs e)
