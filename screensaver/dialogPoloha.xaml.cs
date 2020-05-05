@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using TvaryLib;
+using ShapesLib;
 
 namespace screensaver
 {
@@ -27,13 +27,13 @@ namespace screensaver
 			txtY.Focus();
 		}
 
-		public Souradnice Answer
+		public Coordinates Answer
 		{
 			get 
 			{
 				try
 				{
-					Souradnice souradnice = new Souradnice();
+					Coordinates souradnice = new Coordinates();
 					souradnice.x = Convert.ToDouble(txtX.Text);
 					souradnice.y = Convert.ToDouble(txtY.Text);
 					return souradnice;

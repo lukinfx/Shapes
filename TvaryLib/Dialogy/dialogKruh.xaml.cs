@@ -2,16 +2,16 @@
 using System.Windows;
 
 
-namespace TvaryLib
+namespace ShapesLib
 {
 	public partial class DialogKruh : Window
 	{
-		Kruh mujKruh;
-		public DialogKruh(Kruh tentoKruh, string question)
+		Circle mujKruh;
+		public DialogKruh(Circle tentoKruh, string question)
 		{
 			InitializeComponent();
 			lblQuestion.Content = question;
-			Souradnice stred = new Souradnice() { x = tentoKruh.leftTop.x + ((tentoKruh.height) / 2), y = tentoKruh.leftTop.y + ((tentoKruh.height) / 2) };
+			Coordinates stred = new Coordinates() { x = tentoKruh.leftTop.x + ((tentoKruh.height) / 2), y = tentoKruh.leftTop.y + ((tentoKruh.height) / 2) };
 			txtX.Text = Convert.ToString(stred.x);
 			txtY.Text = Convert.ToString(stred.y);
 			txtR.Text = Convert.ToString(tentoKruh.height / 2);
@@ -25,8 +25,8 @@ namespace TvaryLib
 			try
 			{
 				Tvary tvary = new Tvary();
-				Souradnice souradnice = new Souradnice() { x = Convert.ToDouble(txtX.Text), y = Convert.ToDouble(txtY.Text) };
-				mujKruh.UpravKruh(souradnice, Convert.ToDouble(txtR.Text));
+				Coordinates souradnice = new Coordinates() { x = Convert.ToDouble(txtX.Text), y = Convert.ToDouble(txtY.Text) };
+				mujKruh.ChangeCircle(souradnice, Convert.ToDouble(txtR.Text));
 			}
 			catch (Exception ex)
 			{

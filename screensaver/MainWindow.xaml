@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:screensaver"
-        xmlns:TvaryLib="clr-namespace:TvaryLib;assembly=TvaryLib" x:Class="screensaver.MainWindow"
+        xmlns:TvaryLib="clr-namespace:ShapesLib;assembly=TvaryLib" x:Class="screensaver.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="562.107" Width="896">
     <Grid Margin="0,0,0,-2">
@@ -30,7 +30,7 @@
                 <BindingGroup/>
             </ListBox.ItemBindingGroup>
             <ListBox.DataContext>
-                <TvaryLib:Tvar/>
+                <TvaryLib:Shape/>
             </ListBox.DataContext>
         </ListBox>
         <ToolBar Height="25" VerticalAlignment="Top" Header="Pridat">

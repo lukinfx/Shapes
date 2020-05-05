@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Windows;
 
-namespace TvaryLib
+namespace ShapesLib
 {
 	public partial class DialogObdelnik : Window
 	{
-		Obdelnik obdelnik;
-		public DialogObdelnik(Obdelnik tentoObdelnik, string question)
+		Rectangle obdelnik;
+		public DialogObdelnik(Rectangle tentoObdelnik, string question)
 		{
 			InitializeComponent();
 			lblQuestion.Content = question;
@@ -24,8 +24,8 @@ namespace TvaryLib
 			try
 			{
 				Tvary tvary = new Tvary();
-				Souradnice souradnice = new Souradnice() { x = Convert.ToDouble(txtX.Text), y = Convert.ToDouble(txtY.Text) };
-				obdelnik.Uprav(souradnice, Convert.ToDouble(txtHeight.Text), Convert.ToDouble(txtWeidth.Text));
+				Coordinates souradnice = new Coordinates() { x = Convert.ToDouble(txtX.Text), y = Convert.ToDouble(txtY.Text) };
+				obdelnik.ChangeRectangle(souradnice, Convert.ToDouble(txtHeight.Text), Convert.ToDouble(txtWeidth.Text));
 			}
 			catch (Exception ex)
 			{

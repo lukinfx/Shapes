@@ -8,18 +8,18 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace TvaryLib
+namespace ShapesLib
 {
-    public class Obdelnik : Tvar
+    public class Rectangle : Shape
     {
         
         public double width;
         public double height;
         static int pocet = 0;
-        public Obdelnik () : base(TypTvaru.Obdelnik)
+        public Rectangle () : base(ShapeType.Rectangle)
         {
             Random random = new Random();
-            leftTop = new Souradnice()
+            leftTop = new Coordinates()
             {
                 x = random.Next(1, 300),
                 y = random.Next(1, 300)
@@ -27,21 +27,21 @@ namespace TvaryLib
             height = random.Next(20, 200);
             width = random.Next(20, 200);
             brush = new SolidColorBrush(Color.FromRgb((byte)random.Next(1, 255), (byte)random.Next(1, 255), (byte)random.Next(1, 255)));
-            jmeno = "obdelnik" + pocet;
+            name = "obdelnik" + pocet;
             pocet++;
         }
 
-        public void Uprav(Souradnice souradnice, double height, double width)
+        public void ChangeRectangle(Coordinates coordinates, double height, double width)
         {
-            leftTop.x = souradnice.x;
-            leftTop.y = souradnice.y;
+            leftTop.x = coordinates.x;
+            leftTop.y = coordinates.y;
             this.height = height;
             this.width = width;
         }
 
-        public override void Vykresli(Canvas canvas)
+        public override void PaintShape(Canvas canvas)
         {
-            Rectangle myRectangle = new Rectangle();
+            System.Windows.Shapes.Rectangle myRectangle = new System.Windows.Shapes.Rectangle();
             myRectangle.Width = width;
             myRectangle.Height = height;
             myRectangle.Fill = brush;
@@ -51,22 +51,22 @@ namespace TvaryLib
 
         public override void Dialog()
         {
-            Obdelnik obdelnik = this;
-            var inputObdelnik = new DialogObdelnik(obdelnik, "zadej nove parametry obdelniku:");
-            inputObdelnik.ShowDialog();
+            Rectangle thisRectangle = this;
+            var inputRectangle = new DialogObdelnik(thisRectangle, "zadej nove parametry obdelniku:");
+            inputRectangle.ShowDialog();
         }
-        public override Souradnice Rozmer()
+        public override Coordinates Size()
         {
-            Souradnice rozmer = new Souradnice() { x=width + 20, y = height+20};
-            return rozmer;
+            Coordinates size = new Coordinates() { x=width + 20, y = height+20};
+            return size;
         }
 
-        public override Souradnice Pocatek()
+        public override Coordinates MarginCoordinates()
         {
-            Souradnice pocatek = new Souradnice();
-            pocatek.x = leftTop.x - 10;
-            pocatek.y = leftTop.y - 10;
-            return pocatek;
+            Coordinates margin = new Coordinates();
+            margin.x = leftTop.x - 10;
+            margin.y = leftTop.y - 10;
+            return margin;
         }
     }
 }

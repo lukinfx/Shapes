@@ -10,9 +10,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace TvaryLib
+namespace ShapesLib
 {
-    public class Kruh : Tvar
+    public class Circle : Shape
     {
         int thickness;
         double width;
@@ -20,23 +20,23 @@ namespace TvaryLib
         static int pocet = 0;
 
 
-        public Kruh(): base(TypTvaru.Kruh)
+        public Circle(): base(ShapeType.Circle)
         {
             Random random = new Random();
             thickness = 2;
             width = random.Next(20, 200);
             height = width;
-            leftTop = new Souradnice()
+            leftTop = new Coordinates()
             {
                 x = random.Next(1, 300),
                 y = random.Next(1, 300)
             };
             brush = System.Windows.Media.Brushes.Black;
-            jmeno = "kruh" + pocet;
+            name = "kruh" + pocet;
             pocet++;
         }
 
-        public override void Vykresli(Canvas canvas)
+        public override void PaintShape(Canvas canvas)
         {
             Ellipse myElipse = new Ellipse();
             myElipse.Width = width;
@@ -46,35 +46,35 @@ namespace TvaryLib
             canvas.Children.Add(myElipse);
         }
 
-        public void UpravKruh(Souradnice souradnice, double R)
+        public void ChangeCircle(Coordinates coordinates, double R)
         {
             {
                 height = R*2;
                 width = height;
-                leftTop.x = souradnice.x - R;
-                leftTop.y = souradnice.y - R;
+                leftTop.x = coordinates.x - R;
+                leftTop.y = coordinates.y - R;
             }
         }
 
         public override void Dialog()
         {
-            Kruh mujKruh = this;
-            var inputKruh = new DialogKruh(mujKruh, "zadej nove parametry kruhu:");
-            inputKruh.ShowDialog();
+            Circle thisCircle = this;
+            var inputCircle = new DialogKruh(thisCircle, "zadej nove parametry kruhu:");
+            inputCircle.ShowDialog();
         }
 
-        public override Souradnice Rozmer()
+        public override Coordinates Size()
         {
-            Souradnice rozmer = new Souradnice() { x = width + 20, y = height + 20 };
-            return rozmer;
+            Coordinates size = new Coordinates() { x = width + 20, y = height + 20 };
+            return size;
         }
 
-        public override Souradnice Pocatek()
+        public override Coordinates MarginCoordinates()
         {
-            Souradnice pocatek = new Souradnice();
-            pocatek.x = leftTop.x - 10;
-            pocatek.y = leftTop.y - 10;
-            return pocatek;
+            Coordinates margin = new Coordinates();
+            margin.x = leftTop.x - 10;
+            margin.y = leftTop.y - 10;
+            return margin;
         }
     }
 }

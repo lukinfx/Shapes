@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TvaryLib;
+using ShapesLib;
 
 namespace screensaver
 {
@@ -25,10 +25,10 @@ namespace screensaver
     public partial class MainWindow : Window
     {
         Tvary tvary = new Tvary();
-        public Souradnice move1 = new Souradnice ();
-        public Souradnice move2 = new Souradnice();
+        public Coordinates move1 = new Coordinates ();
+        public Coordinates move2 = new Coordinates();
 
-        public Souradnice mouseMove = new Souradnice();
+        public Coordinates mouseMove = new Coordinates();
         string jmeno;
         bool mouseDown;
         
@@ -40,31 +40,31 @@ namespace screensaver
 
         private void ButtonCara_Click(object sender, RoutedEventArgs e)
         {
-            Cara cara = new Cara();
-            tvary.Pridej(cara);
-            tvary.VykresliCanvas(canvas1);
-            tvary.VykresliListBoxJmena(listBoxJmena);
-            tvary.VratTvar(cara.jmeno);
+            ShapesLib.Line cara = new ShapesLib.Line();
+            tvary.AddShape(cara);
+            tvary.PaintCanvas(canvas1);
+            tvary.UpdateTheListBox(listBoxJmena);
+            tvary.returnShapeType(cara.name);
         }
 
         private void ButtonSmaz_Click(object sender, RoutedEventArgs e)
         {
-            tvary.Smaz();
-            tvary.VykresliCanvas(canvas1);
-            tvary.VykresliListBoxJmena(listBoxJmena);
+            tvary.DeleteShape();
+            tvary.PaintCanvas(canvas1);
+            tvary.UpdateTheListBox(listBoxJmena);
         }
 
         private void ButtonObdelnik_Click(object sender, RoutedEventArgs e)
         {
-            Obdelnik obdelnik = new Obdelnik();
-            tvary.Pridej(obdelnik);
-            tvary.VykresliCanvas(canvas1);
-            tvary.VykresliListBoxJmena(listBoxJmena);
+            ShapesLib.Rectangle obdelnik = new ShapesLib.Rectangle();
+            tvary.AddShape(obdelnik);
+            tvary.PaintCanvas(canvas1);
+            tvary.UpdateTheListBox(listBoxJmena);
         }
 
         private void listBoxJmena_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            tvary.ZrusOznaceni();
+            tvary.UnselectAll();
             
             if (listBoxJmena.SelectedItem == null)
                 jmeno = "";
@@ -74,11 +74,11 @@ namespace screensaver
                 //oznacTento.jeOznaceny = true;
                 foreach (string oznac in listBoxJmena.SelectedItems)
                 {
-                    
-                    Tvar oznacTento = tvary.NajdiTvar(oznac);
-                    oznacTento.jeOznaceny = true;
+
+                    ShapesLib.Shape oznacTento = tvary.returnShape(oznac);
+                    oznacTento.isSelected = true;
                 }
-                tvary.VykresliCanvas(canvas1);
+                tvary.PaintCanvas(canvas1);
                 //tvary.Ohraniceni(canvas1);
             }
 
@@ -87,10 +87,10 @@ namespace screensaver
         }
         private void ButtonKruh_Click(object sender, RoutedEventArgs e)
         {
-            Kruh kruh = new Kruh();
-            tvary.Pridej(kruh);
-            tvary.VykresliCanvas(canvas1);
-            tvary.VykresliListBoxJmena(listBoxJmena);
+            Circle kruh = new Circle();
+            tvary.AddShape(kruh);
+            tvary.PaintCanvas(canvas1);
+            tvary.UpdateTheListBox(listBoxJmena);
 
         }
 
@@ -102,8 +102,8 @@ namespace screensaver
                 if (inputJmeno.ShowDialog() == true)
                 {
                     string noveJmeno = inputJmeno.Answer.ToString();
-                    tvary.ZmenJmeno(jmeno, noveJmeno);
-                    tvary.VykresliListBoxJmena(listBoxJmena);
+                    tvary.ChangeName(jmeno, noveJmeno);
+                    tvary.UpdateTheListBox(listBoxJmena);
                 }
             }
             else
@@ -114,10 +114,10 @@ namespace screensaver
 
         private void ButtonSouradnice_Click(object sender, RoutedEventArgs e)
         {
-            
-            Tvar mujTvar = tvary.NajdiTvar(jmeno);
+
+            ShapesLib.Shape mujTvar = tvary.returnShape(jmeno);
             mujTvar.Dialog();
-            tvary.VykresliCanvas(canvas1);
+            tvary.PaintCanvas(canvas1);
         }
 
 
@@ -131,8 +131,8 @@ namespace screensaver
                     RGB barva = inputBarva.Answer;
                     if (barva != null)
                     {
-                        tvary.ZmenBarvu(jmeno, barva);
-                        tvary.VykresliCanvas(canvas1);
+                        tvary.ChangeColor(jmeno, barva);
+                        tvary.PaintCanvas(canvas1);
                     }
                 }
             }
@@ -144,9 +144,9 @@ namespace screensaver
 
         private void ButtonSmazVse_Click(object sender, RoutedEventArgs e)
         {
-            tvary.SmazVse(canvas1);
-            tvary.VykresliCanvas(canvas1);
-            tvary.VykresliListBoxJmena(listBoxJmena);
+            tvary.DeleteAll(canvas1);
+            tvary.PaintCanvas(canvas1);
+            tvary.UpdateTheListBox(listBoxJmena);
         }
 
         private void CreateSaveBitmap(Canvas canvas, string filename)
@@ -207,8 +207,8 @@ namespace screensaver
                 Point p = e.GetPosition(this);
                 move2.x = p.X - mouseMove.x;
                 move2.y = p.Y - mouseMove.y;
-                tvary.ZmenSouradnice2(move2);
-                tvary.VykresliCanvas(canvas1);
+                tvary.DragChangeCoordinates(move2);
+                tvary.PaintCanvas(canvas1);
                 mouseMove.x = p.X;
                 mouseMove.y = p.Y;
             }
@@ -219,8 +219,8 @@ namespace screensaver
             Point p = e.GetPosition(this);
             mouseMove.x = p.X;
             mouseMove.y = p.Y;
-            tvary.PoznejTvar(mouseMove);
-            tvary.VykresliCanvas(canvas1);
+            tvary.MouseClickRecogniseShape(mouseMove);
+            tvary.PaintCanvas(canvas1);
         }
     }
 }

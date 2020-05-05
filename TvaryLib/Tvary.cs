@@ -13,198 +13,198 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TvaryLib
+namespace ShapesLib
 {
-    public enum TypTvaru {
+    public enum ShapeType {
         UNKNOWN, 
-        Kruh,
-        Cara,
-        Obdelnik
+        Circle,
+        Line,
+        Rectangle
     };
 
     /// <summary>
     /// This is a base class for all shapes
     /// </summary>
-    public class Tvar
+    public class Shape
     {
-        public string jmeno;
-        public Souradnice leftTop;
+        public string name;
+        public Coordinates leftTop;
         public Brush brush;
-        public TypTvaru typTvaru;
-        public bool jeOznaceny;
+        public ShapeType shapeType;
+        public bool isSelected;
 
-        public virtual void Vykresli(Canvas canvas) { }
+        public virtual void PaintShape(Canvas canvas) { }
         public virtual void Dialog() { }
-        public Tvar()
+        public Shape()
         {
-            this.typTvaru = TypTvaru.UNKNOWN;
+            this.shapeType = ShapeType.UNKNOWN;
         }
 
-        public Tvar(TypTvaru typTvaru)
+        public Shape(ShapeType shapeType)
         {
-            this.typTvaru = typTvaru;
+            this.shapeType = shapeType;
         }
 
-        public virtual Souradnice Rozmer()
+        public virtual Coordinates Size()
         {
             throw new NotImplementedException();
         }
 
-        public virtual Souradnice Pocatek()
+        public virtual Coordinates MarginCoordinates()
         {
             throw new NotImplementedException();
         }
 
-        public virtual void ZmenSouradnice(Souradnice noveSouradnice)
+        public virtual void ChangeCoordinates(Coordinates newCoordinates)
         {
 
-            leftTop.x = leftTop.x + noveSouradnice.x;
-            leftTop.y = leftTop.y + noveSouradnice.y;
+            leftTop.x = leftTop.x + newCoordinates.x;
+            leftTop.y = leftTop.y + newCoordinates.y;
         }
     }
 
     public class Tvary
     {
-        private static List<Tvar> seznam = new List<Tvar>();
+        private static List<Shape> listOfShapes = new List<Shape>();
 
-        public virtual void Pridej(Tvar pridavanyTvar)
+        public virtual void AddShape(Shape pridavanyTvar)
         {
-            seznam.Add(pridavanyTvar);
+            listOfShapes.Add(pridavanyTvar);
         }
 
-        public virtual void Smaz()
+        public virtual void DeleteShape()
         {
-            seznam.RemoveAll(t => t.jeOznaceny == true);
+            listOfShapes.RemoveAll(t => t.isSelected == true);
         }
 
-        public virtual void ZmenJmeno(string puvodniJmeno, string noveJmeno)
+        public virtual void ChangeName(string puvodniJmeno, string noveJmeno)
         {
-            var upravovanyTvar = seznam.Find(t => t.jmeno == puvodniJmeno);
-            upravovanyTvar.jmeno = noveJmeno;
+            var upravovanyTvar = listOfShapes.Find(t => t.name == puvodniJmeno);
+            upravovanyTvar.name = noveJmeno;
         }
 
-        public void ZrusOznaceni()
+        public void UnselectAll()
         {
-            foreach (Tvar tvar in seznam)
+            foreach (Shape tvar in listOfShapes)
             {
-                tvar.jeOznaceny = false;
+                tvar.isSelected = false;
             }
         }
 
-        public virtual void ZmenSouradnice(Souradnice noveSouradnice)
+        public virtual void ChangeCoordinates(Coordinates newCoordinates)
         {
-            foreach (var item in seznam)
+            foreach (var item in listOfShapes)
             {
-                if (item.jeOznaceny)
+                if (item.isSelected)
                 {
-                    item.leftTop.x = noveSouradnice.x;
-                    item.leftTop.y = noveSouradnice.y;
+                    item.leftTop.x = newCoordinates.x;
+                    item.leftTop.y = newCoordinates.y;
                 }
             }
         }
 
-        public virtual void ZmenSouradnice2(Souradnice noveSouradnice)
+        public virtual void DragChangeCoordinates(Coordinates newCoordinates)
         {
-            foreach (var item in seznam)
+            foreach (var item in listOfShapes)
             {
-                if (item.jeOznaceny)
+                if (item.isSelected)
                 {
-                    item.ZmenSouradnice(noveSouradnice);
+                    item.ChangeCoordinates(newCoordinates);
                 }
             }
         }
 
-        public virtual Souradnice VratSouradnice(string puvodniJmeno)
+        public virtual Coordinates ReturnCoordinates(string name)
         {
-            var upravovanyTvar = seznam.Find(t => t.jmeno == puvodniJmeno);
-            Souradnice souradnice = new Souradnice();
-            souradnice.x = upravovanyTvar.leftTop.x;
-            souradnice.y = upravovanyTvar.leftTop.y;
-            return souradnice;
+            var chosenShape = listOfShapes.Find(t => t.name == name);
+            Coordinates point = new Coordinates();
+            point.x = chosenShape.leftTop.x;
+            point.y = chosenShape.leftTop.y;
+            return point;
         }
 
-        private void Ohraniceni(Canvas canvas)
+        private void Border(Canvas canvas)
         {
-            foreach (var tvar in seznam)
+            foreach (var shape in listOfShapes)
             {
-                if (tvar.jeOznaceny) 
+                if (shape.isSelected) 
                 { 
-                    Souradnice rozmer = tvar.Rozmer();
-                    Souradnice pocatek = tvar.Pocatek();
-                    Rectangle ohraniceni = new Rectangle();
-                    ohraniceni.Width = rozmer.x;
-                    ohraniceni.Height = rozmer.y;
+                    Coordinates size = shape.Size();
+                    Coordinates marginCoordinates = shape.MarginCoordinates();
+                    System.Windows.Shapes.Rectangle borderRectangle = new System.Windows.Shapes.Rectangle();
+                    borderRectangle.Width = size.x;
+                    borderRectangle.Height = size.y;
 
                     Pen pen = new Pen();
                     pen.DashStyle = DashStyles.DashDot;
                     var arr = new DoubleCollection() { 6, 3 };
 
-                    ohraniceni.StrokeDashArray = arr;
-                    ohraniceni.Stroke = System.Windows.Media.Brushes.Red;
-                    ohraniceni.Margin = new Thickness(pocatek.x, pocatek.y, 0, 0);
-                    canvas.Children.Add(ohraniceni);
+                    borderRectangle.StrokeDashArray = arr;
+                    borderRectangle.Stroke = System.Windows.Media.Brushes.Red;
+                    borderRectangle.Margin = new Thickness(marginCoordinates.x, marginCoordinates.y, 0, 0);
+                    canvas.Children.Add(borderRectangle);
                 }
             }
             
         }
 
 
-        public virtual void VykresliCanvas(Canvas canvas)
+        public virtual void PaintCanvas(Canvas canvas)
         {
             canvas.Children.Clear();
-            foreach (var t in seznam)
+            foreach (var t in listOfShapes)
             {
-                t.Vykresli(canvas);
+                t.PaintShape(canvas);
             }
 
-            Ohraniceni(canvas);
+            Border(canvas);
         }
-        public virtual void VykresliListBoxJmena(ListBox jmena)
+        public virtual void UpdateTheListBox(ListBox listBoxNames)
         {
-            jmena.Items.Clear();
-            foreach (var t in seznam)
+            listBoxNames.Items.Clear();
+            foreach (var t in listOfShapes)
             {
-                jmena.Items.Add(t.jmeno);
+                listBoxNames.Items.Add(t.name);
             }
         }
 
-        public void ZmenBarvu(string jmeno, RGB barva)
+        public void ChangeColor(string name, RGB color)
         {
-            var upravovanyTvar = seznam.Find(t => t.jmeno == jmeno);
-            upravovanyTvar.brush = new SolidColorBrush(Color.FromRgb((byte)barva.red, (byte)barva.green, (byte)barva.blue));
+            var shape = listOfShapes.Find(t => t.name == name);
+            shape.brush = new SolidColorBrush(Color.FromRgb((byte)color.red, (byte)color.green, (byte)color.blue));
         }
 
-        public void SmazVse(Canvas canvas1)
+        public void DeleteAll(Canvas canvas1)
         {
-            seznam.Clear();
+            listOfShapes.Clear();
             canvas1.Children.Clear();
         }
 
-        public TypTvaru VratTvar(string jmeno)
+        public ShapeType returnShapeType(string name)
         {
-            var mujTvar = seznam.Find(t => t.jmeno == jmeno);
-            return mujTvar.typTvaru;
+            var myShape = listOfShapes.Find(t => t.name == name);
+            return myShape.shapeType;
         }
 
-        public Tvar NajdiTvar(string jmeno)
+        public Shape returnShape(string jmeno)
         {
-            Tvar mujTvar = seznam.Find(t => t.jmeno == jmeno);
+            Shape mujTvar = listOfShapes.Find(t => t.name == jmeno);
             
             return mujTvar;
         }
 
-        public void PoznejTvar(Souradnice mouseMove)
+        public void MouseClickRecogniseShape(Coordinates mouseMove)
         {
-            foreach (var tvar in seznam)
+            foreach (var tvar in listOfShapes)
             {
-                Souradnice rozmer = tvar.Rozmer();
-                Souradnice pocatek = tvar.Pocatek();
+                Coordinates size = tvar.Size();
+                Coordinates margin = tvar.MarginCoordinates();
 
-                System.Diagnostics.Debug.WriteLine($"Tvar : {pocatek.x} < {mouseMove.x} && {pocatek.x} + {rozmer.x} > {mouseMove.x} && {pocatek.y} < {mouseMove.y} && {pocatek.y} + {rozmer.y} > {mouseMove.y}");
-                if (pocatek.x + 87 < mouseMove.x && pocatek.x + 87 + rozmer.x > mouseMove.x && pocatek.y + 25 < mouseMove.y && pocatek.y + rozmer.y +25 > mouseMove.y)
+                System.Diagnostics.Debug.WriteLine($"Tvar : {margin.x} < {mouseMove.x} && {margin.x} + {size.x} > {mouseMove.x} && {margin.y} < {mouseMove.y} && {margin.y} + {size.y} > {mouseMove.y}");
+                if (margin.x + 87 < mouseMove.x && margin.x + 87 + size.x > mouseMove.x && margin.y + 25 < mouseMove.y && margin.y + size.y +25 > mouseMove.y)
                 {
-                    if (tvar.jeOznaceny) { tvar.jeOznaceny = false; }
-                    else { tvar.jeOznaceny = true; }
+                    if (tvar.isSelected) { tvar.isSelected = false; }
+                    else { tvar.isSelected = true; }
                 }
             }
         }

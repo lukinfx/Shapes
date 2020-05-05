@@ -9,9 +9,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace TvaryLib
+namespace ShapesLib
 {
-    public class Cara : Tvar
+    public class Line : Shape
     {
         
         public double x1;
@@ -22,7 +22,7 @@ namespace TvaryLib
 
         static int pocet = 0;
 
-        public Cara() : base(TypTvaru.Cara)
+        public Line() : base(ShapeType.Line)
         {
             Random random = new Random();
             x2 = random.Next(1, 300);
@@ -35,26 +35,26 @@ namespace TvaryLib
                 y = random.Next(1, 300)
             };*/
             thickness = 3;
-            jmeno = "cara" + pocet;
+            name = "cara" + pocet;
             pocet++;
 
             brush = System.Windows.Media.Brushes.Black; //new SolidColorBrush(Color.FromRgb((byte)random.Next(1, 255), (byte)random.Next(1, 255), (byte)random.Next(1, 255)));
         }
 
-        public static void UpravCaru(string jmeno, Souradnice souradnicePocatek, Souradnice souradniceKonec)
+        public static void ChangeLine(string name, Coordinates coordinatesStart, Coordinates coordinatesEnd)
         {
-            Tvary tvary = new Tvary();
-            Cara cara = (Cara)tvary.NajdiTvar(jmeno);
-            cara.x1 = souradnicePocatek.x;
-            cara.y1 = souradnicePocatek.y;
-            cara.x2 = souradniceKonec.x;
-            cara.y2 = souradniceKonec.y;
+            Tvary shapes = new Tvary();
+            Line line = (Line)shapes.returnShape(name);
+            line.x1 = coordinatesStart.x;
+            line.y1 = coordinatesStart.y;
+            line.x2 = coordinatesEnd.x;
+            line.y2 = coordinatesEnd.y;
 
         }
 
-        public override void Vykresli(Canvas canvas)
+        public override void PaintShape(Canvas canvas)
         {
-            Line myLine = new Line();
+            System.Windows.Shapes.Line myLine = new System.Windows.Shapes.Line();
             myLine.Stroke = brush;
             myLine.X1  = x1;
             myLine.X2 = x2;
@@ -66,40 +66,40 @@ namespace TvaryLib
 
         public override void Dialog()
         {
-            Cara mojeCara = this;
-            var inputCara = new DialogCara(mojeCara, "Zadej nove parametry cary");
+            Line thisLine = this;
+            var inputCara = new DialogCara(thisLine, "Zadej nove parametry cary");
             inputCara.ShowDialog();
         }
 
-        public override Souradnice Rozmer ()
+        public override Coordinates Size ()
         {
-            Souradnice rozmer = new Souradnice() { x = Math.Abs(x2 - x1) + 20 , y = Math.Abs(y2 - y1) + 20 };
-            return rozmer;
+            Coordinates size = new Coordinates() { x = Math.Abs(x2 - x1) + 20 , y = Math.Abs(y2 - y1) + 20 };
+            return size;
         }
 
-        public override Souradnice Pocatek()
+        public override Coordinates MarginCoordinates()
         {
-            Souradnice pocatek = new Souradnice();
+            Coordinates margin = new Coordinates();
             if (x1 <= x2)
             {
-                pocatek.x = x1 -10;
+                margin.x = x1 -10;
             }
-            else pocatek.x = x2 - 10;
+            else margin.x = x2 - 10;
             
             if (y1 <= y2)
             {
-                pocatek.y = y1-10;
+                margin.y = y1-10;
             }
-            else pocatek.y = y2 - 10;
+            else margin.y = y2 - 10;
 
-            return pocatek;
+            return margin;
         }
-        public override void ZmenSouradnice(Souradnice noveSouradnice)
+        public override void ChangeCoordinates(Coordinates newCoordinates)
         {
-            x1 = x1 + noveSouradnice.x;
-            x2 = x2 + noveSouradnice.x;
-            y1 = y1 + noveSouradnice.y;
-            y2 = y2 + noveSouradnice.y;
+            x1 = x1 + newCoordinates.x;
+            x2 = x2 + newCoordinates.x;
+            y1 = y1 + newCoordinates.y;
+            y2 = y2 + newCoordinates.y;
         }
     }
 }

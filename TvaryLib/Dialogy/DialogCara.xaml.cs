@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Windows;
-using TvaryLib;
+using ShapesLib;
 
-namespace TvaryLib
+namespace ShapesLib
 {
 	public partial class DialogCara : Window
 	{
-		Cara mojeCara;
-		public DialogCara(Cara tatoCara, string question)
+		Line mojeCara;
+		public DialogCara(Line tatoCara, string question)
 		{
 			InitializeComponent();
 			mojeCara = tatoCara;
@@ -26,9 +26,9 @@ namespace TvaryLib
 			try
 			{
 				Tvary tvary = new Tvary();
-				Souradnice souradnicePocatek = new Souradnice() { x = Convert.ToDouble(txtX.Text), y = Convert.ToDouble(txtY.Text) };
-				Souradnice souradniceKonec = new Souradnice() { x = Convert.ToDouble(txtHeight.Text), y = Convert.ToDouble(txtWeidth.Text) };
-				Cara.UpravCaru(mojeCara.jmeno, souradnicePocatek, souradniceKonec);
+				Coordinates souradnicePocatek = new Coordinates() { x = Convert.ToDouble(txtX.Text), y = Convert.ToDouble(txtY.Text) };
+				Coordinates souradniceKonec = new Coordinates() { x = Convert.ToDouble(txtHeight.Text), y = Convert.ToDouble(txtWeidth.Text) };
+				Line.ChangeLine(mojeCara.name, souradnicePocatek, souradniceKonec);
 			}
 			catch (Exception ex)
 			{

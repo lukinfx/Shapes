@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TvaryLib
+namespace ShapesLib
 {
-    public class Souradnice
+    public class Coordinates
     {
         public double x;
         public double y;

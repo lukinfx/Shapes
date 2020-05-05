@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TvaryLib
+namespace ShapesLib
 {
     /// <summary>
     /// This class is used to keep color of the object

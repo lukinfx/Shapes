@@ -59,7 +59,7 @@
     <Compile Include="Tvary\kruh.cs" />
     <Compile Include="Tvary\obdelnik.cs" />
     <Compile Include="RGB.cs" />
-    <Compile Include="Souradnice.cs" />
+    <Compile Include="Coordinates.cs" />
     <Compile Include="Tvary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
