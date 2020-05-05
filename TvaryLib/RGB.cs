@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TvaryLib
 {
+    /// <summary>
+    /// This class is used to keep color of the object
+    /// </summary>
     public class RGB
     {
         public double red=0;
