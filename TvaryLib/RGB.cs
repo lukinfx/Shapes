@@ -11,8 +11,8 @@ namespace TvaryLib
     /// </summary>
     public class RGB
     {
-        public double red=0;
-        public double green=0;
-        public double blue=0;
+        public double red=255;
+        public double green=255;
+        public double blue=255;
     }
 }
