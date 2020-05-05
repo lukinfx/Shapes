@@ -102,11 +102,5 @@ namespace ShapesLib
 
             return margin;
         }
-
-        public override Coordinates GetCoordinates()
-        {
-            return new Coordinates() { x = x1, y = y1 };
-        }
-
     }
 }

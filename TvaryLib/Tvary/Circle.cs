@@ -83,10 +83,5 @@ namespace ShapesLib
             margin.y = leftTop.y - 10;
             return margin;
         }
-
-        public override Coordinates GetCoordinates()
-        {
-            return leftTop;
-        }
     }
 }
