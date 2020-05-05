@@ -50,6 +50,12 @@ namespace ShapesLib
         {
             throw new NotImplementedException();
         }
+
+        public virtual Coordinates GetCoordinates()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 
     public class Tvary
@@ -100,6 +106,12 @@ namespace ShapesLib
                     item.Move(newCoordinates);
                 }
             }
+        }
+
+        public virtual Coordinates ReturnCoordinates(string name)
+        {
+            var chosenShape = listOfShapes.Find(t => t.name == name);
+            return chosenShape.GetCoordinates();
         }
 
         private void Border(Canvas canvas)
