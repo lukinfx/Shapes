@@ -20,7 +20,6 @@ namespace ShapesLib
     public class Shape
     {
         public string name;
-        public Coordinates leftTop;
         public Brush brush;
         public ShapeType shapeType;
         public bool isSelected;
@@ -47,12 +46,16 @@ namespace ShapesLib
             throw new NotImplementedException();
         }
 
-        public virtual void ChangeCoordinates(Coordinates newCoordinates)
+        public virtual void Move(Coordinates newCoordinates)
         {
-
-            //leftTop.x = leftTop.x + newCoordinates.x;
-            //leftTop.y = leftTop.y + newCoordinates.y;
+            throw new NotImplementedException();
         }
+
+        public virtual Coordinates GetCoordinates()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 
     public class Tvary
@@ -83,14 +86,13 @@ namespace ShapesLib
             }
         }
 
-        public virtual void ChangeCoordinates(Coordinates newCoordinates)
+        public virtual void MoveSelected(Coordinates offset)
         {
             foreach (var item in listOfShapes)
             {
                 if (item.isSelected)
                 {
-                    item.leftTop.x = newCoordinates.x;
-                    item.leftTop.y = newCoordinates.y;
+                    item.Move(offset);
                 }
             }
         }
@@ -101,7 +103,7 @@ namespace ShapesLib
             {
                 if (item.isSelected)
                 {
-                    item.ChangeCoordinates(newCoordinates);
+                    item.Move(newCoordinates);
                 }
             }
         }
@@ -109,10 +111,7 @@ namespace ShapesLib
         public virtual Coordinates ReturnCoordinates(string name)
         {
             var chosenShape = listOfShapes.Find(t => t.name == name);
-            Coordinates point = new Coordinates();
-            point.x = chosenShape.leftTop.x;
-            point.y = chosenShape.leftTop.y;
-            return point;
+            return chosenShape.GetCoordinates();
         }
 
         private void Border(Canvas canvas)

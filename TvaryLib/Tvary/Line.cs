@@ -13,7 +13,6 @@ namespace ShapesLib
 {
     public class Line : Shape
     {
-        
         public double x1;
         public double x2;
         public double y1;
@@ -77,6 +76,15 @@ namespace ShapesLib
             return size;
         }
 
+        public override void Move(Coordinates offset)
+        {
+            x1 = x1 + offset.x;
+            y1 = y1 + offset.y;
+
+            x2 = x2 + offset.x;
+            y2 = y2 + offset.y;
+        }
+
         public override Coordinates MarginCoordinates()
         {
             Coordinates margin = new Coordinates();
@@ -94,12 +102,11 @@ namespace ShapesLib
 
             return margin;
         }
-        public override void ChangeCoordinates(Coordinates newCoordinates)
+
+        public override Coordinates GetCoordinates()
         {
-            x1 = x1 + newCoordinates.x;
-            x2 = x2 + newCoordinates.x;
-            y1 = y1 + newCoordinates.y;
-            y2 = y2 + newCoordinates.y;
+            return new Coordinates() { x = x1, y = y1 };
         }
+
     }
 }

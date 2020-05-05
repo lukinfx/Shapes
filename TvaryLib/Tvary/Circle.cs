@@ -15,6 +15,7 @@ namespace ShapesLib
     public class Circle : Shape
     {
         int thickness;
+        public Coordinates leftTop;
         double width;
         public double height;
         static int pocet = 0;
@@ -69,12 +70,23 @@ namespace ShapesLib
             return size;
         }
 
+        public override void Move(Coordinates offset)
+        {
+            leftTop.x = leftTop.x + offset.x;
+            leftTop.y = leftTop.y + offset.y;
+        }
+
         public override Coordinates MarginCoordinates()
         {
             Coordinates margin = new Coordinates();
             margin.x = leftTop.x - 10;
             margin.y = leftTop.y - 10;
             return margin;
+        }
+
+        public override Coordinates GetCoordinates()
+        {
+            return leftTop;
         }
     }
 }
