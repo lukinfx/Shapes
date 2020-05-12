@@ -16,6 +16,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ShapesLib;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace screensaver
 {
@@ -220,6 +222,18 @@ namespace screensaver
             mouseMove.y = p.Y;
             tvary.MouseClickRecogniseShape(mouseMove);
             tvary.PaintCanvas(canvas1);
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the name of the file where we should save the segments.
+            tvary.SaveXaml();
+
+        }
+
+        private void Open_Click(object sender, RoutedEventArgs e)
+        {
+            tvary.OpenXaml(canvas1);
         }
     }
 }

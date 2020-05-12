@@ -16,7 +16,7 @@ namespace ShapesLib
     {
         int thickness;
         public Coordinates leftTop;
-        double width;
+        public double width;
         public double height;
         static int pocet = 0;
 

@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 
 namespace ShapesLib
 {
@@ -17,10 +20,14 @@ namespace ShapesLib
     /// <summary>
     /// This is a base class for all shapes
     /// </summary>
+    [XmlInclude(typeof(Line)), XmlInclude(typeof(Circle)), XmlInclude(typeof(Rectangle))]
     public class Shape
     {
         public string name;
+        
+        [XmlIgnore]
         public Brush brush;
+
         public ShapeType shapeType;
         public bool isSelected;
 
@@ -178,6 +185,51 @@ namespace ShapesLib
                 if (boundingRect.IntersectsWith(mouseRect))
                 {
                     tvar.isSelected = !tvar.isSelected;
+                }
+            }
+        }
+        public void SaveXaml ()
+        {
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.DefaultExt = ".xml";
+            dlg.Filter = "XML (*.xml)|*.xml|All Files (*.*)|*.*";
+            var result = dlg.ShowDialog();
+            if (result.Value != true) return;
+
+
+            // Make the XmlSerializer.
+            XmlSerializer serializer =
+                new XmlSerializer(typeof(List<ShapesLib.Shape>));
+            using (FileStream stream = File.Create(dlg.FileName))
+            {
+                serializer.Serialize(stream, listOfShapes);
+            }
+        }
+
+        public void OpenXaml(Canvas canvas)
+        {
+            listOfShapes.Clear();
+            canvas.Children.Clear();
+            // Get the name of the file where we should save the segments.
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.DefaultExt = ".xml";
+            dlg.Filter = "XML (*.xml)|*.xml|All Files (*.*)|*.*";
+            Nullable<bool> result = dlg.ShowDialog();
+            if (result.Value != true) return;
+
+            // Make the XmlSerializer.
+            XmlSerializer serializer =
+                new XmlSerializer(typeof(List<ShapesLib.Shape>));
+            using (FileStream stream =
+                File.Open(dlg.FileName, FileMode.Open))
+            {
+                List<ShapesLib.Shape> segments =
+                    (List<ShapesLib.Shape>)serializer.Deserialize(stream);
+                // Add the loaded segments.
+                foreach (Shape segment in segments)
+                {
+                    segment.PaintShape(canvas);
+                    listOfShapes.Add(segment);
                 }
             }
         }

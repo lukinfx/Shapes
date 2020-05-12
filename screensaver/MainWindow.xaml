@@ -49,6 +49,8 @@
                 <MenuItem Header="Jmeno" Click="ButtonJmeno_Click"/>
             </MenuItem>
             <MenuItem Header="Uloz" Click="Button_Click"/>
+            <MenuItem Header="Uloz Projekt" Click="Save_Click"/>
+            <MenuItem Header="Otevri Projekt" Click="Open_Click"/>
         </Menu>
     </Grid>
 </Window>
